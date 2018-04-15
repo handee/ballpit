@@ -58,8 +58,9 @@ if __name__ == '__main__':
 
 #read a frame from the video capture obj
 
-        flag, img = cap.read()
+        flag, im = cap.read()
            
+        img=cv2.flip(im,1)
 
         fbuffer=cv2.getTrackbarPos('Size of buffer', 'bgmodel')
 #let's deal with that pesky zero case before we divide by fbuffer
@@ -88,7 +89,6 @@ if __name__ == '__main__':
 	    cv2.rectangle(fgimg,h.tl,h.br,(255,0,0),3)
             if (h.is_moving(intimg)):
 	        cv2.rectangle(fgimg,h.tl,h.br,(0,255,0),3)
-
         cv2.imshow('foregound',fgimg)
 #uncommment the next few lines if you want to save the output
         #fn="out/bgmovingav_big"+str(n).rjust(4,'0')+".png" 
