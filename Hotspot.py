@@ -30,11 +30,9 @@ class Hotspot:
        maxval=2*s.spot_width*2*s.spot_width*255;
        for i in range(s.history_length-1):
 	   s.recent_history[i]=s.recent_history[i+1]
-       print(maxval)
        sum_box= image[s.br[1]][s.br[0]] + image[s.tl[1]][s.tl[0]] \
            - image[s.tl[1]][s.br[0]] - image[s.br[1]][s.tl[0]]
-       print(sum_box)
-       if (sum_box > (maxval-50)):
+       if (sum_box > (maxval-200)):
            s.recent_history[s.history_length-1]=True
        else:
            s.recent_history[s.history_length-1]=False
