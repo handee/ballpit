@@ -11,15 +11,17 @@ import numpy as np
 from Hotspot import Hotspot
 from os import listdir
 from os.path import isfile, join
-import sounddevice as sd
-import soundfile as sf
+#import sounddevice as sd
+#import soundfile as sf
+import pygame as pg
 
 hist=5
 wid=5
 no_sounds=8
 no=0
 dirname='/home/hannah/coding/ballpit/sounds/'
-
+pg.mixer.init()
+pg.init()
 hotspots=[]
 
 # mouse callback function
@@ -45,17 +47,16 @@ if __name__ == '__main__':
     soundfiles = [join(dirname,f) for f in listdir(dirname) if isfile(join(dirname,f))] 
     
     no_sounds=len(soundfiles)
-    print(no_sounds)
-    print(soundfiles)
+    pg.mixer.set_num_channels(no_sounds)
     sounds = []
     fs = []
     for i in range (no_sounds):
          x=Hotspot(hist,wid) 
          hotspots.append(x)
-         s,f =sf.read(soundfiles[i])
+         s =pg.mixer.Sound(soundfiles[i])
          sounds.append(s)
          fs.append(f)
-         sd.play(sounds[i], fs[i])
+         sounds[i].play()
 
 # gizza window with a trackbar on it
     cv2.namedWindow('bgmodel')
@@ -107,7 +108,7 @@ if __name__ == '__main__':
            cv2.rectangle(fgimg,h.tl,h.br,(255,0,0),3)
            if (h.is_moving(intimg)):
                cv2.rectangle(fgimg,h.tl,h.br,(0,255,0),3)
-               sd.play(sounds[i])
+               sounds[i].play()
            i=i+1
         cv2.imshow('foregound',fgimg)
         n+=1
